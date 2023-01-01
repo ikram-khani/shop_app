@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
+import 'package:shop_app/screens/cart_screen.dart';
 // import 'package:provider/provider.dart';
 // import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/widgets/products_grid.dart';
@@ -52,7 +53,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                   ]),
             ),
             Consumer<Cart>(
-              builder: ((context, cart, ch) => Padding(
+              builder: ((context, cart, ch) => Container(
                     padding:
                         const EdgeInsets.only(top: 6, right: 15, bottom: 6),
                     child: Badge(
@@ -62,8 +63,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                       ),
                       animationType: BadgeAnimationType.fade,
                       shape: BadgeShape.circle,
-                      position: BadgePosition.topEnd(top: -4, end: 0),
+                      position: BadgePosition.topEnd(top: 0, end: 0),
                       badgeColor: Colors.red,
+                      showBadge: cart.itemCount > 0 ? true : false,
                       child: ch,
                     ),
                   )),
@@ -71,7 +73,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 icon: const Icon(
                   Icons.shopping_cart,
                 ),
-                onPressed: (() => null),
+                onPressed: (() =>
+                    Navigator.of(context).pushNamed(CartScreen.routName)),
               ),
             ),
           ],

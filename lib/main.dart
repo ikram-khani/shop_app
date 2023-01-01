@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/products.dart';
+import 'package:shop_app/screens/cart_screen.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
 import 'package:shop_app/screens/products_overview_screen.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
         title: 'IKi Shop',
         home: ProductsOverviewScreen(),
         routes: {
-          ProductDetailScreen.routName: (context) => ProductDetailScreen()
+          ProductDetailScreen.routName: (context) => ProductDetailScreen(),
+          CartScreen.routName: (context) => CartScreen(),
         },
       ),
     );
