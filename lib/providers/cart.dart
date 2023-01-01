@@ -14,7 +14,7 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
-  Map<String, CartItem> _items = {};
+  final Map<String, CartItem> _items = {};
   Map<String, CartItem> get items {
     return {..._items};
   }
@@ -38,7 +38,7 @@ class Cart with ChangeNotifier {
           productId,
           (existingItem) => CartItem(
                 id: existingItem.id,
-                title: existingItem.id,
+                title: existingItem.title,
                 quantity: existingItem.quantity + 1,
                 price: existingItem.price,
               ));
