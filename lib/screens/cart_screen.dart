@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/cart.dart' show Cart;
-import '../widgets/cart_item.dart' as ci;
+import '../providers/cart.dart';
+import '../providers/orders.dart';
+import '../widgets/cart_item.dart' as wgt;
 
 class CartScreen extends StatelessWidget {
   static const routName = "/Cart";
@@ -10,6 +11,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Cart'),
@@ -32,18 +34,25 @@ class CartScreen extends StatelessWidget {
                   const Spacer(),
                   Chip(
                     label: Text(
-                      '\$${cart.totalAmount}',
+                      '\$${cart.totalAmount.toStringAsFixed(2)}',
                       style: const TextStyle(color: Colors.white),
                     ),
                     backgroundColor: Theme.of(context).colorScheme.primary,
                   ),
-                  TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      textStyle: TextStyle(
-                          color: Theme.of(context).colorScheme.primary),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    child: TextButton(
+                      onPressed: () {
+                        Provider.of<Orders>(context, listen: false).addOrder(
+                            cart.items.values.toList(), cart.totalAmount);
+                        cart.clear();
+                      },
+                      style: TextButton.styleFrom(
+                        textStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
+                      child: const Text("ORDER NOW"),
                     ),
-                    child: const Text("ORDER NOW"),
                   ),
                 ],
               ),
@@ -56,7 +65,7 @@ class CartScreen extends StatelessWidget {
             child: ListView.builder(
               itemCount: cart.items.length,
               itemBuilder: ((context, index) {
-                return ci.CartItem(
+                return wgt.CartItem(
                   cart.items.values.toList()[index].id,
                   cart.items.keys.toList()[index],
                   cart.items.values.toList()[index].title,
