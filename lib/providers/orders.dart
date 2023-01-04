@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../providers/cart.dart';
 
-class OrderItem {
+class OrderItemM {
   final String id;
   final double amount;
   final List<CartItem> products;
   final DateTime dateTime;
-  OrderItem({
+  OrderItemM({
     required this.id,
     required this.amount,
     required this.products,
@@ -15,15 +15,15 @@ class OrderItem {
 }
 
 class Orders with ChangeNotifier {
-  final List<OrderItem> _orders = [];
-  List<OrderItem> get orders {
+  final List<OrderItemM> _orders = [];
+  List<OrderItemM> get orders {
     return [..._orders];
   }
 
   void addOrder(List<CartItem> cartProducts, double total) {
     _orders.insert(
       0,
-      OrderItem(
+      OrderItemM(
         id: DateTime.now().toString(),
         amount: total,
         products: cartProducts,
