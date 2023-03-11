@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
@@ -6,7 +7,6 @@ import 'package:shop_app/widgets/app_drawer.dart';
 // import 'package:provider/provider.dart';
 // import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/widgets/products_grid.dart';
-import 'package:badges/badges.dart';
 
 enum FilterOption {
   Favorites,
@@ -57,15 +57,17 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               builder: ((context, cart, ch) => Container(
                     padding:
                         const EdgeInsets.only(top: 6, right: 15, bottom: 6),
-                    child: Badge(
+                    child: badges.Badge(
+                      position: badges.BadgePosition.topEnd(top: 0, end: 0),
                       badgeContent: Text(
                         cart.itemCount.toString(),
                         style: const TextStyle(color: Colors.white),
                       ),
-                      animationType: BadgeAnimationType.fade,
-                      shape: BadgeShape.circle,
-                      position: BadgePosition.topEnd(top: 0, end: 0),
-                      badgeColor: Colors.red,
+                      badgeAnimation: badges.BadgeAnimation.fade(),
+                      badgeStyle: badges.BadgeStyle(
+                        shape: badges.BadgeShape.circle,
+                        badgeColor: Colors.red,
+                      ),
                       showBadge: cart.itemCount > 0 ? true : false,
                       child: ch,
                     ),
