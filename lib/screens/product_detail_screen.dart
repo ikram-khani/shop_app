@@ -99,6 +99,21 @@ class ProductDetailScreen extends StatelessWidget {
                       onPressed: () {
                         cart.addItem(productId, loadedProduct.title,
                             loadedProduct.price);
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              "Item added to Cart!",
+                            ),
+                            duration: const Duration(seconds: 2),
+                            action: SnackBarAction(
+                              label: 'Undo',
+                              onPressed: () => {
+                                cart.removeSingleItem(loadedProduct.id),
+                              },
+                            ),
+                          ),
+                        );
                       },
                       child: const Text(
                         "Add To Cart",
