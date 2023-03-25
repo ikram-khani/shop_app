@@ -26,7 +26,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   void initState() {
-    // Provider.of<Products>(context).fetchAndSetProducts(); //won't work here!
+    // Provider.of<Products>(context).fetchAndSetProducts(); //won't work here! because the widget is not fully wired up (context things not work here)
     //the issue can be solved through helper constructer
     // Future.delayed(Duration.zero).then(
     //   (value) => Provider.of<Products>(context).fetchAndSetProducts(),
