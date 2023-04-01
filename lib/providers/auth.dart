@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:shop_app/models/http_exeption.dart';
+
 import '../api_key.dart';
 
 import 'package:flutter/material.dart';
@@ -14,15 +16,22 @@ class Auth with ChangeNotifier {
     final url = Uri.parse(
         'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=$firebaseProjectKey');
 
-    final response = await http.post(
-      url,
-      body: json.encode({
-        'email': email,
-        'password': password,
-        'returnSecureToken': true,
-      }),
-    );
-    print(json.decode(response.body));
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'email': email,
+          'password': password,
+          'returnSecureToken': true,
+        }),
+      );
+      final responseData = json.decode(response.body);
+      if (responseData['error'] != null) {
+        throw HttpException(responseData['error']['message']);
+      }
+    } catch (error) {
+      rethrow;
+    }
   }
 
   Future<void> signup(String email, String password) async {
