@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Auth with ChangeNotifier {
-  String? _token;
-  DateTime? _expiryDate;
-  String? _userId;
+  String? token;
+  DateTime? expiryDate;
+  String? userId;
 
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
