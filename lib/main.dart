@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, Products>(
           create: (ctx) => Products('', []),
           update: (_, auth, previousProducts) => Products(
-            auth.token, //no local token,,we have to manage token locally in the app
+            auth.token!,
             previousProducts == null ? [] : previousProducts.items,
           ),
         ),
@@ -40,25 +40,27 @@ class MyApp extends StatelessWidget {
           return Orders();
         }),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: 'Lato',
-          colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.green,
-            accentColor: Colors.deepOrange,
-          ),
-        ),
-        title: 'IKi Shop',
-        home: AuthScreen(),
-        routes: {
-          ProductDetailScreen.routName: (context) => ProductDetailScreen(),
-          CartScreen.routName: (context) => CartScreen(),
-          OrdersScreen.routName: (context) => OrdersScreen(),
-          UserProductScreen.routName: (context) => UserProductScreen(),
-          EditProductScreen.routName: (context) => EditProductScreen(),
-        },
-      ),
+      child: Consumer<Auth>(
+          builder: (ctx, authData, child) => MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                  fontFamily: 'Lato',
+                  colorScheme: ColorScheme.fromSwatch(
+                    primarySwatch: Colors.green,
+                    accentColor: Colors.deepOrange,
+                  ),
+                ),
+                title: 'IKi Shop',
+                home: authData.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+                routes: {
+                  ProductDetailScreen.routName: (context) =>
+                      ProductDetailScreen(),
+                  CartScreen.routName: (context) => CartScreen(),
+                  OrdersScreen.routName: (context) => OrdersScreen(),
+                  UserProductScreen.routName: (context) => UserProductScreen(),
+                  EditProductScreen.routName: (context) => EditProductScreen(),
+                },
+              )),
     );
   }
 }

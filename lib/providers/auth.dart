@@ -7,9 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Auth with ChangeNotifier {
-  String? token;
-  DateTime? expiryDate;
-  String? userId;
+  String? _token;
+  DateTime? _xpiryDate;
+  String? _userId;
+
+  bool get isAuth {
+    return token != null;
+  }
+
+  String? get token {
+    if (_token != null &&
+        _xpiryDate != null &&
+        _xpiryDate!.isAfter(DateTime.now())) {
+      return _token!;
+    }
+    return null;
+  }
 
   Future<void> _authenticate(
       String email, String password, String urlSegment) async {
@@ -29,6 +42,15 @@ class Auth with ChangeNotifier {
       if (responseData['error'] != null) {
         throw HttpException(responseData['error']['message']);
       }
+
+      _token = responseData['idToken'];
+      _userId = responseData['localId'];
+      _xpiryDate = DateTime.now().add(
+        Duration(
+          seconds: int.parse(responseData['expiresIn']),
+        ),
+      );
+      notifyListeners();
     } catch (error) {
       rethrow;
     }
