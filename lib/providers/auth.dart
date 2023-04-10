@@ -10,6 +10,9 @@ class Auth with ChangeNotifier {
   String? _token;
   DateTime? _xpiryDate;
   String? _userId;
+  String get userId {
+    return _userId!;
+  }
 
   bool get isAuth {
     return token != null;
