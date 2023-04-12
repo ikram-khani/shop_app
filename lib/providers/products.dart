@@ -68,9 +68,11 @@ class Products with ChangeNotifier {
   //   _showFavoritesOnly = false;
   //   notifyListeners();
   // }
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : false;
     var url = Uri.parse(
-        'https://shop-app-59eb0-default-rtdb.firebaseio.com/UserProducts/$userId/Products.json?auth=$authToken');
+        'https://shop-app-59eb0-default-rtdb.firebaseio.com/Products.json?auth=$authToken&$filterString');
 
     try {
       final response = await http.get(url);
@@ -109,7 +111,7 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final url = Uri.parse(
-        'https://shop-app-59eb0-default-rtdb.firebaseio.com/UserProducts/$userId/Products.json?auth=$authToken');
+        'https://shop-app-59eb0-default-rtdb.firebaseio.com/Products.json?auth=$authToken');
     try {
       final response = await http.post(url,
           body: json.encode({
@@ -117,6 +119,7 @@ class Products with ChangeNotifier {
             'description': product.description,
             'imageUrl': product.imageUrl,
             'price': product.price,
+            'creatorId': userId,
           }));
 
       final newProduct = Product(
@@ -141,7 +144,7 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((element) => element.id == id);
     if (prodIndex >= 0) {
       final url = Uri.parse(
-          'https://shop-app-59eb0-default-rtdb.firebaseio.com/UserProducts/$userId/Products/$id.json?auth=$authToken');
+          'https://shop-app-59eb0-default-rtdb.firebaseio.com/Products/$id.json?auth=$authToken');
 
       await http.patch(
         url,
@@ -163,7 +166,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
     final url = Uri.parse(
-        'https://shop-app-59eb0-default-rtdb.firebaseio.com/UserProducts/$userId/Products/$id.json?auth=$authToken');
+        'https://shop-app-59eb0-default-rtdb.firebaseio.com/Products/$id.json?auth=$authToken');
     final existingProductIndex = _items.indexWhere(
       (element) => element.id == id,
     );
