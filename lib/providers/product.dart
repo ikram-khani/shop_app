@@ -31,7 +31,7 @@ class Product with ChangeNotifier {
     notifyListeners();
     try {
       final url = Uri.parse(
-          'https://shop-app-59eb0-default-rtdb.firebaseio.com/uerFavorites/$userId/$id.json?auth=$authToken');
+          'https://shop-app-59eb0-default-rtdb.firebaseio.com/userFavorites/$userId/$id.json?auth=$authToken');
       final response = await http.put(
         url,
         body: json.encode(

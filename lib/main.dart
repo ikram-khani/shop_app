@@ -38,10 +38,11 @@ class MyApp extends StatelessWidget {
           return Cart();
         }),
         ChangeNotifierProxyProvider<Auth, Orders>(create: (ctx) {
-          return Orders('', []);
+          return Orders('', '', []);
         }, update: (_, auth, previousOrders) {
           return Orders(
             auth.token!,
+            auth.userId,
             previousOrders == null ? [] : previousOrders.orders,
           );
         }),

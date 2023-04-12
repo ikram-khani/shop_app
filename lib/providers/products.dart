@@ -70,7 +70,7 @@ class Products with ChangeNotifier {
   // }
   Future<void> fetchAndSetProducts() async {
     var url = Uri.parse(
-        'https://shop-app-59eb0-default-rtdb.firebaseio.com/products.json?auth=$authToken');
+        'https://shop-app-59eb0-default-rtdb.firebaseio.com/UserProducts/$userId/Products.json?auth=$authToken');
 
     try {
       final response = await http.get(url);
@@ -81,7 +81,7 @@ class Products with ChangeNotifier {
         return;
       }
       url = Uri.parse(
-          'https://shop-app-59eb0-default-rtdb.firebaseio.com/uerFavorites/$userId.json?auth=$authToken');
+          'https://shop-app-59eb0-default-rtdb.firebaseio.com/userFavorites/$userId.json?auth=$authToken');
       final favoriteResponse = await http.get(url);
       final favoriteData = json.decode(favoriteResponse.body);
 
@@ -109,7 +109,7 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final url = Uri.parse(
-        'https://shop-app-59eb0-default-rtdb.firebaseio.com/products.json?auth=$authToken');
+        'https://shop-app-59eb0-default-rtdb.firebaseio.com/UserProducts/$userId/Products.json?auth=$authToken');
     try {
       final response = await http.post(url,
           body: json.encode({
@@ -141,7 +141,7 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((element) => element.id == id);
     if (prodIndex >= 0) {
       final url = Uri.parse(
-          'https://shop-app-59eb0-default-rtdb.firebaseio.com/products/$id.json?auth=$authToken');
+          'https://shop-app-59eb0-default-rtdb.firebaseio.com/UserProducts/$userId/Products/$id.json?auth=$authToken');
 
       await http.patch(
         url,
@@ -163,7 +163,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
     final url = Uri.parse(
-        'https://shop-app-59eb0-default-rtdb.firebaseio.com/products/$id.json?auth=$authToken');
+        'https://shop-app-59eb0-default-rtdb.firebaseio.com/UserProducts/$userId/Products/$id.json?auth=$authToken');
     final existingProductIndex = _items.indexWhere(
       (element) => element.id == id,
     );
