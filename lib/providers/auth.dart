@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 import 'package:shop_app/models/http_exeption.dart';
 
 import '../api_key.dart';
@@ -10,6 +11,7 @@ class Auth with ChangeNotifier {
   String? _token;
   DateTime? _xpiryDate;
   String? _userId;
+  Timer? _authTimer;
 
   String? get userId {
     return _userId;
@@ -54,6 +56,7 @@ class Auth with ChangeNotifier {
           seconds: int.parse(responseData['expiresIn']),
         ),
       );
+      _autoLogout();
       notifyListeners();
     } catch (error) {
       rethrow;
@@ -72,6 +75,19 @@ class Auth with ChangeNotifier {
     _token = null;
     _userId = null;
     _xpiryDate = null;
+    if (_authTimer != null) {
+      _authTimer!.cancel();
+    }
     notifyListeners();
+  }
+
+  void _autoLogout() {
+    if (_authTimer != null) {
+      _authTimer!.cancel();
+      _authTimer = null;
+    }
+
+    final timeToExpiry = _xpiryDate!.difference(DateTime.now()).inSeconds;
+    _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
   }
 }
