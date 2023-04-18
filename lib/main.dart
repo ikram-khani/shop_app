@@ -10,6 +10,7 @@ import 'package:shop_app/screens/orders_screen.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
 import 'package:shop_app/screens/products_overview_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/screens/splash_screen.dart';
 import 'package:shop_app/screens/user_product_screen.dart';
 
 void main(List<String> args) {
@@ -58,7 +59,16 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
                 title: 'IKi Shop',
-                home: authData.isAuth ? ProductsOverviewScreen() : AuthScreen(),
+                home: authData.isAuth
+                    ? ProductsOverviewScreen()
+                    : FutureBuilder(
+                        future: authData.tryAutoLogin(),
+                        builder: (ctx, authResultSnapshot) =>
+                            authResultSnapshot.connectionState ==
+                                    ConnectionState.waiting
+                                ? SplashScreen()
+                                : AuthScreen(),
+                      ),
                 routes: {
                   ProductDetailScreen.routName: (context) =>
                       ProductDetailScreen(),
