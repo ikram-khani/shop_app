@@ -86,7 +86,6 @@ class Products with ChangeNotifier {
           'https://shop-app-59eb0-default-rtdb.firebaseio.com/userFavorites/$userId.json?auth=$authToken');
       final favoriteResponse = await http.get(url);
       final favoriteData = json.decode(favoriteResponse.body);
-      print(favoriteData);
 
       extractData.forEach((prodId, prodData) {
         loadedProducts.add(
