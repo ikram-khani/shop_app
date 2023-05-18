@@ -14,7 +14,7 @@ import 'package:shop_app/screens/splash_screen.dart';
 import 'package:shop_app/screens/user_product_screen.dart';
 
 void main(List<String> args) {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -60,22 +60,22 @@ class MyApp extends StatelessWidget {
                 ),
                 title: 'IKi Shop',
                 home: authData.isAuth
-                    ? ProductsOverviewScreen()
+                    ? const ProductsOverviewScreen()
                     : FutureBuilder(
                         future: authData.tryAutoLogin(),
                         builder: (ctx, authResultSnapshot) =>
                             authResultSnapshot.connectionState ==
                                     ConnectionState.waiting
-                                ? SplashScreen()
-                                : AuthScreen(),
+                                ? const SplashScreen()
+                                : const AuthScreen(),
                       ),
                 routes: {
                   ProductDetailScreen.routName: (context) =>
-                      ProductDetailScreen(),
-                  CartScreen.routName: (context) => CartScreen(),
-                  OrdersScreen.routName: (context) => OrdersScreen(),
-                  UserProductScreen.routName: (context) => UserProductScreen(),
-                  EditProductScreen.routName: (context) => EditProductScreen(),
+                      const ProductDetailScreen(),
+                  CartScreen.routName: (context) => const CartScreen(),
+                  OrdersScreen.routName: (context) => const OrdersScreen(),
+                  UserProductScreen.routName: (context) => const UserProductScreen(),
+                  EditProductScreen.routName: (context) => const EditProductScreen(),
                 },
               )),
     );

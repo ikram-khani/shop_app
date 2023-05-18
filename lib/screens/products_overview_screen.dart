@@ -94,8 +94,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                         cart.itemCount.toString(),
                         style: const TextStyle(color: Colors.white),
                       ),
-                      badgeAnimation: badges.BadgeAnimation.fade(),
-                      badgeStyle: badges.BadgeStyle(
+                      badgeAnimation: const badges.BadgeAnimation.fade(),
+                      badgeStyle: const badges.BadgeStyle(
                         shape: badges.BadgeShape.circle,
                         badgeColor: Colors.red,
                       ),
@@ -113,9 +113,9 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             ),
           ],
         ),
-        drawer: AppDrawer(),
+        drawer: const AppDrawer(),
         body: _isLoading
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : ProductsGrid(_showOnlyFavorites));
