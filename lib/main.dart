@@ -42,8 +42,8 @@ class MyApp extends StatelessWidget {
           return Orders('', '', []);
         }, update: (_, auth, previousOrders) {
           return Orders(
-            auth.token!,
-            auth.userId!,
+            auth.token ?? '',
+            auth.userId ?? '',
             previousOrders == null ? [] : previousOrders.orders,
           );
         }),
@@ -74,8 +74,10 @@ class MyApp extends StatelessWidget {
                       const ProductDetailScreen(),
                   CartScreen.routName: (context) => const CartScreen(),
                   OrdersScreen.routName: (context) => const OrdersScreen(),
-                  UserProductScreen.routName: (context) => const UserProductScreen(),
-                  EditProductScreen.routName: (context) => const EditProductScreen(),
+                  UserProductScreen.routName: (context) =>
+                      const UserProductScreen(),
+                  EditProductScreen.routName: (context) =>
+                      const EditProductScreen(),
                 },
               )),
     );
