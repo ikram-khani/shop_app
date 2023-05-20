@@ -18,116 +18,139 @@ class ProductDetailScreen extends StatelessWidget {
         Provider.of<Products>(context, listen: false).findById(productId);
     final cart = Provider.of<Cart>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(loadedProduct.title),
-      ),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          SizedBox(
-            width: double.infinity,
-            height: 300,
-            child: Hero(
-              tag: loadedProduct.id,
-              child: Image.network(
-                loadedProduct.imageUrl,
-                fit: BoxFit.cover,
+      // appBar: AppBar(
+      //   title: Text(loadedProduct.title),
+      // ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 300,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                  ),
+                  child: Text(loadedProduct.title)),
+              background: Hero(
+                tag: loadedProduct.id,
+                child: Image.network(
+                  loadedProduct.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            '\$${loadedProduct.price.toString()}',
-            style: const TextStyle(color: Colors.grey, fontSize: 20),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-              loadedProduct.description,
-              textAlign: TextAlign.center,
-              softWrap: true,
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.only(top: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text(
-                  "Quantity",
-                  style: TextStyle(color: Colors.grey, fontSize: 20),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  '\$${loadedProduct.price.toString()}',
+                  style: const TextStyle(color: Colors.grey, fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    loadedProduct.description,
+                    textAlign: TextAlign.center,
+                    softWrap: true,
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(top: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      ElevatedButton(
-                        onPressed: (() {
-                          cart.subProductQuantity();
-                        }),
-                        child: const Icon(
-                          Icons.remove,
+                      const Text(
+                        "Quantity",
+                        style: TextStyle(color: Colors.grey, fontSize: 20),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: (() {
+                                cart.subProductQuantity();
+                              }),
+                              child: const Icon(
+                                Icons.remove,
+                              ),
+                            ),
+                            Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(
+                                cart.quantity.toString(),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: (() {
+                                cart.addProductQuantity();
+                              }),
+                              child: const Icon(Icons.add),
+                            ),
+                          ],
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          cart.quantity.toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            cart.addItem(productId, loadedProduct.title,
+                                loadedProduct.price);
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text(
+                                  "Item added to Cart!",
+                                ),
+                                duration: const Duration(seconds: 2),
+                                action: SnackBarAction(
+                                  label: 'Undo',
+                                  onPressed: () => {
+                                    cart.removeSingleItem(loadedProduct.id),
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Add To Cart",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
-                      ),
-                      ElevatedButton(
-                        onPressed: (() {
-                          cart.addProductQuantity();
-                        }),
-                        child: const Icon(Icons.add),
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        cart.addItem(productId, loadedProduct.title,
-                            loadedProduct.price);
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text(
-                              "Item added to Cart!",
-                            ),
-                            duration: const Duration(seconds: 2),
-                            action: SnackBarAction(
-                              label: 'Undo',
-                              onPressed: () => {
-                                cart.removeSingleItem(loadedProduct.id),
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        "Add To Cart",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )),
+                const SizedBox(
+                  height: 800,
                 )
               ],
             ),
-          )
-        ]),
+          ),
+        ],
       ),
     );
   }
