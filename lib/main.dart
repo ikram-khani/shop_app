@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:shop_app/helpers/custom_route.dart';
 import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/orders.dart';
@@ -57,6 +58,11 @@ class MyApp extends StatelessWidget {
                     primarySwatch: Colors.green,
                     accentColor: Colors.deepOrange,
                   ),
+                  pageTransitionsTheme: PageTransitionsTheme(builders: {
+                    TargetPlatform.android: CustomPageTransitionBuilder(),
+                    TargetPlatform.iOS: CustomPageTransitionBuilder(),
+                    TargetPlatform.windows: CustomPageTransitionBuilder(),
+                  }),
                 ),
                 title: 'IKi Shop',
                 home: authData.isAuth
