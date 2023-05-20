@@ -46,3 +46,5 @@ app.*.map.json
 
 # the api keys 
 api_key.dart
+
+/android/app/google-services.json
